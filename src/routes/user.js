@@ -1,8 +1,8 @@
-import { teste } from "../controller"
+import { createUserData } from "../controller"
 
 
 const userRoutes = app =>{
-    app.post('/createUser', teste)
+    app.post('/createUser', createUserData)
 }
 
 export{
