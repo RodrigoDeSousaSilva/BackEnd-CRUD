@@ -1,9 +1,11 @@
 import { createUser } from "../repository";
+import {validateUserData} from "../validate"
 
 export const createUserData = async (req, res) => {
   try {
     const params = req.body;
-    if (0 == 0) {
+    const validateUser = await validateUserData.isValid(await params)
+    if (validateUser) {
       console.log("entrou");
       const data = await createUser(params);
       console.log(data);
