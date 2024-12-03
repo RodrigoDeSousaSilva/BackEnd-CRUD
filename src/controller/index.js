@@ -5,11 +5,10 @@ import * as yup from "yup";
 export const createUserData = async (req, res) => {
   try {
     const params = req.body;
-    await validateUserData.validate(params, { abortEarly: false })
+    await validateUserData.validate(params, { abortEarly: false });
 
-    const data = await createUser(params)
-    res.status(200).send(data)
-
+    const data = await createUser(params);
+    res.status(200).send(data);
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       res.status(400).send(error.errors);
