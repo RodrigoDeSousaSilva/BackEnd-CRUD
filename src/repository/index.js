@@ -19,9 +19,21 @@ async function getUserByEmail(email) {
     where: { email: email },
   });
   if (user) {
-    return "email ja cadastrado";
+    return user;
   }
   return null;
 }
 
-export { createUser, getUserByEmail };
+async function compareHash(password, user) {
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, user.password, function (err, resultado) {
+      if (err) {
+        console.error("Erro ao comparar senhas", err);
+        reject(err);
+      } else {
+        resolve(resultado);
+      }
+    });
+  });
+}
+export { createUser, getUserByEmail, compareHash };
