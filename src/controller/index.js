@@ -9,7 +9,7 @@ export const createUserData = async (req, res) => {
     const email = await getUserByEmail(params.email);
     if (!email) {
       const data = await createUser(params);
-      res.status(200).send(data);
+      res.status(200).send('Usuário criado com sucesso');
     } else {
       res.status(400).send("email ja cadastrado");
     }
@@ -48,3 +48,19 @@ export const authenticateUser = async (req, res) => {
     }
   }
 };
+
+export const updateUserData = async (req, res) =>{
+  try{
+
+  }catch (error) {
+
+  }
+}
+
+export const deleteUserData = async (req, res) =>{
+  try{
+
+  }catch (error) {
+
+  }
+}
