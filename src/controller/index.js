@@ -1,4 +1,4 @@
-import { createUser, getUserByEmail, compareHash } from "../repository";
+import { createUser, getUserByEmail, compareHash, updateUser } from "../repository";
 import { validateUserData, validateLogin } from "../validate";
 import * as yup from "yup";
 
@@ -51,9 +51,13 @@ export const authenticateUser = async (req, res) => {
 
 export const updateUserData = async (req, res) =>{
   try{
+    const data = req.body
+      const update = await updateUser(data)
 
+      res.status(200).send(`usuário atualizado ${update}`)
+      
   }catch (error) {
-
+    res.status(500).send('ocorreu um erro interno')
   }
 }
 
