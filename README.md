@@ -41,61 +41,68 @@ Este é um projeto de **CRUD (Create, Read, Update, Delete)** de usuários desen
 ## Rotas da API
 As rotas disponíveis são:
 
-Criar Usuário
-* URL: /createUser
-* Método: POST
-* Corpo da Requisição:
-{
-  "name": "string",
-  "age": number,
-  "email": "string",
-  "password": "string"
-}
+Criar Usuário <br>
+* URL: /createUser <br>
+* Método: POST <br>
+* Corpo da Requisição: <br>
+{ <br>
+  "name": "string", <br>
+  "age": number, <br>
+  "email": "string", <br>
+  "password": "string" <br>
+} <br>
 
 ## Login de Usuário
 * URL: /loginUser
 * Método: POST
-* Corpo da Requisição:
-{
-  "email": "string",
-  "password": "string"
+* Corpo da Requisição: <br>
+{ <br>
+  "email": "string", <br>
+  "password": "string" <br>
 }
 
 ## Atualizar Usuário
 * URL: /updateUser
 * Método: PUT
-* Corpo da Requisição
-  {
-  "id": "number",
-  "name": "string", ?
-  "age": number, ?
-  "email": "string" ?
-  "password": "string" ?
-}
+* Corpo da Requisição <br>
+  { <br> 
+  "id": "number", <br>
+  "name": "string", ? <br>
+  "age": number, ? <br>
+  "email": "string" ? <br>
+  "password": "string" ? <br>
+} <br>
 
 ## Deletar Usuário
 * URL: /deleteUser
 * Método: DELETE
-* Corpo da Requisição:
-{
-  "id": "number"
-  "email": "string",
-  "password": "string"
+* Corpo da Requisição: <br>
+{ <br>
+  "id": "number" <br>
+  "email": "string", <br>
+  "password": "string" <br>
 }
 
 ## Scripts Disponíveis
 * npm run dev: Inicia o servidor em modo de desenvolvimento usando Sucrase.
-<h2>Estrutura do Projeto</h2>
-src/
-├── controller/
-│   ├── createUser.js
-│   ├── authenticateUser.js
-│   ├── updateUser.js
-│   └── deleteUser.js
-├── routes/
-│   └── userRoutes.js
-├── server.js
-└── prisma/
-    └── schema.prisma
-
-markdown
+<h2>Estrutura do Projeto</h2> <br>
+prisma/ <br>
+├── migrations/ <br>
+│   ├── 202412021252_migration/ <br>
+│   │   └── migration.sql <br>
+│   └── 202412031813_migration/ <br>
+│       └── migration.sql <br>
+├── schema.prisma <br>
+src/ <br>
+├── controller/ <br>
+│   └── index.js <br>
+├── repository/ <br>
+│   └── index.js <br>
+├── routes/ <br>
+│   ├── index.js <br>
+│   └── user.js <br>
+├── service/ <br>
+│   └── prisma.js <br>
+├── validate/ <br>
+│   └── index.js <br>
+└── server.js <br>
