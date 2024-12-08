@@ -37,19 +37,16 @@ async function compareHash(password, user) {
   });
 }
 
-async function updateUser(data){
-  // const passwordHash = await bcrypt.hash(data.password, 10);
-  if (data.password){
+async function updateUser(data) {
+  if (data.password) {
     const passwordHash = await bcrypt.hash(data.password, 10);
-    data.password = passwordHash
+    data.password = passwordHash;
   }
-
   const update = await prisma.users.update({
-    where: {id: data.id},
-    data: data
-
-  })
-  return update
+    where: { id: data.id },
+    data: data,
+  });
+  return update;
 }
 
 export { createUser, getUserByEmail, compareHash, updateUser };

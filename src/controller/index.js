@@ -1,5 +1,5 @@
 import { createUser, getUserByEmail, compareHash, updateUser } from "../repository";
-import { validateUserData, validateLogin } from "../validate";
+import { validateUserData, validateLogin, validateUpdate } from "../validate";
 import * as yup from "yup";
 
 export const createUserData = async (req, res) => {
@@ -52,18 +52,22 @@ export const authenticateUser = async (req, res) => {
 export const updateUserData = async (req, res) =>{
   try{
     const data = req.body
-      const update = await updateUser(data)
+    await validateUpdate.validate(data, { abortEarly: false })
+    const update = await updateUser(data)
 
-      res.status(200).send(`usuário atualizado ${update}`)
-      
+    res.status(200).send(`usuário atualizado ${update}`)  
   }catch (error) {
-    res.status(500).send('ocorreu um erro interno')
+    if (error instanceof yup.ValidationError) {
+      res.status(400).send(error.errors);
+    } else {
+      res.status(500).send("Ocorre um erro interno");
+    }
   }
 }
 
 export const deleteUserData = async (req, res) =>{
   try{
-
+    
   }catch (error) {
 
   }
