@@ -4,6 +4,7 @@ import {
   compareHash,
   updateUser,
   deleteUser,
+  getUserById,
 } from "../repository";
 import {
   validateUserData,
@@ -80,14 +81,23 @@ export const deleteUserData = async (req, res) => {
     const data = req.body;
     await validateDelete.validate(data, { abortEarly: false });
 
-    const email = await getUserByEmail(data.email);
-    const hashTest = await compareHash(data.password, email);
+    const id = await getUserById(data.id);
+    if (id) {
+      const email = await getUserByEmail(data.email);
 
-    if (email && hashTest) {
-      const remove = await deleteUser(data);
-      res.status(200).send(`usuario ${email.name} deletado`);
+      if (email) {
+        const hashTest = await compareHash(data.password, email);
+        if (hashTest) {
+          const remove = await deleteUser(data);
+          res.status(200).send(`usuario ${email.name} deletado`);
+        } else {
+          res.status(400).send("senha ivalido");
+        }
+      } else {
+        res.status(400).send("email ivalido");
+      }
     } else {
-      res.status(400).send("email ou senha ivalidos");
+      res.status(400).send("id invalido");
     }
   } catch (error) {
     if (error instanceof yup.ValidationError) {

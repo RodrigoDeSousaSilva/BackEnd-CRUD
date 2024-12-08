@@ -56,4 +56,15 @@ async function deleteUser(data) {
   return deletar
 }
 
-export { createUser, getUserByEmail, compareHash, updateUser, deleteUser };
+async function getUserById(id) {
+  const user = await prisma.users.findUnique({
+    where: { id: id },
+  });
+  if (user) {
+    return user;
+  }
+  return null;
+}
+
+
+export { createUser, getUserByEmail, compareHash, updateUser, deleteUser, getUserById };
