@@ -3,9 +3,14 @@ import {
   getUserByEmail,
   compareHash,
   updateUser,
-  deleteUser
+  deleteUser,
 } from "../repository";
-import { validateUserData, validateLogin, validateUpdate } from "../validate";
+import {
+  validateUserData,
+  validateLogin,
+  validateUpdate,
+  validateDelete,
+} from "../validate";
 import * as yup from "yup";
 
 export const createUserData = async (req, res) => {
@@ -60,7 +65,7 @@ export const updateUserData = async (req, res) => {
     await validateUpdate.validate(data, { abortEarly: false });
     const update = await updateUser(data);
 
-    res.status(200).send(`usuário atualizado ${update}`);
+    res.status(200).send(`usuário ${update.name} atualizado `);
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       res.status(400).send(error.errors);
@@ -72,21 +77,23 @@ export const updateUserData = async (req, res) => {
 
 export const deleteUserData = async (req, res) => {
   try {
-    const data = req.body
-    console.log('antes de email')
+    const data = req.body;
+    await validateDelete.validate(data, { abortEarly: false });
+
     const email = await getUserByEmail(data.email);
-    console.log('depois de email')
-    const hashTest = await compareHash(data.password, email)
-    console.log('apos hashtest')
-    if (email && hashTest){
-      console.log('apos if')
-      const remove = await deleteUser(data)
-      console.log('apos remover')
-      res.status(200).send(`usuario ${email.name} deletado`)
-    }else {
-      res.status(400).send('email ou senha ivalidos')
+    const hashTest = await compareHash(data.password, email);
+
+    if (email && hashTest) {
+      const remove = await deleteUser(data);
+      res.status(200).send(`usuario ${email.name} deletado`);
+    } else {
+      res.status(400).send("email ou senha ivalidos");
     }
   } catch (error) {
-    res.status(500).send("Ocorre um erro interno");
+    if (error instanceof yup.ValidationError) {
+      res.status(400).send(error.errors);
+    } else {
+      res.status(500).send("Ocorre um erro interno");
+    }
   }
 };
