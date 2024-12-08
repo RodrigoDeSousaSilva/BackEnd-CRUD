@@ -49,4 +49,11 @@ async function updateUser(data) {
   return update;
 }
 
-export { createUser, getUserByEmail, compareHash, updateUser };
+async function deleteUser(data) {
+  const deletar = await prisma.users.delete({
+    where: {id : data.id}
+  })
+  return deletar
+}
+
+export { createUser, getUserByEmail, compareHash, updateUser, deleteUser };

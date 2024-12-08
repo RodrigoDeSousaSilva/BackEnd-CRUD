@@ -3,6 +3,7 @@ import {
   getUserByEmail,
   compareHash,
   updateUser,
+  deleteUser
 } from "../repository";
 import { validateUserData, validateLogin, validateUpdate } from "../validate";
 import * as yup from "yup";
@@ -36,7 +37,6 @@ export const authenticateUser = async (req, res) => {
 
     if (email) {
       const unHash = await compareHash(data.password, email);
-      console.log(unHash);
       if (unHash) {
         res.status(200).send(email);
       } else {
@@ -72,5 +72,21 @@ export const updateUserData = async (req, res) => {
 
 export const deleteUserData = async (req, res) => {
   try {
-  } catch (error) {}
+    const data = req.body
+    console.log('antes de email')
+    const email = await getUserByEmail(data.email);
+    console.log('depois de email')
+    const hashTest = await compareHash(data.password, email)
+    console.log('apos hashtest')
+    if (email && hashTest){
+      console.log('apos if')
+      const remove = await deleteUser(data)
+      console.log('apos remover')
+      res.status(200).send(`usuario ${email.name} deletado`)
+    }else {
+      res.status(400).send('email ou senha ivalidos')
+    }
+  } catch (error) {
+    res.status(500).send("Ocorre um erro interno");
+  }
 };
