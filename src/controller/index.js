@@ -1,4 +1,9 @@
-import { createUser, getUserByEmail, compareHash, updateUser } from "../repository";
+import {
+  createUser,
+  getUserByEmail,
+  compareHash,
+  updateUser,
+} from "../repository";
 import { validateUserData, validateLogin, validateUpdate } from "../validate";
 import * as yup from "yup";
 
@@ -9,7 +14,7 @@ export const createUserData = async (req, res) => {
     const email = await getUserByEmail(params.email);
     if (!email) {
       const data = await createUser(params);
-      res.status(200).send('Usuário criado com sucesso');
+      res.status(200).send("Usuário criado com sucesso");
     } else {
       res.status(400).send("email ja cadastrado");
     }
@@ -49,26 +54,23 @@ export const authenticateUser = async (req, res) => {
   }
 };
 
-export const updateUserData = async (req, res) =>{
-  try{
-    const data = req.body
-    await validateUpdate.validate(data, { abortEarly: false })
-    const update = await updateUser(data)
+export const updateUserData = async (req, res) => {
+  try {
+    const data = req.body;
+    await validateUpdate.validate(data, { abortEarly: false });
+    const update = await updateUser(data);
 
-    res.status(200).send(`usuário atualizado ${update}`)  
-  }catch (error) {
+    res.status(200).send(`usuário atualizado ${update}`);
+  } catch (error) {
     if (error instanceof yup.ValidationError) {
       res.status(400).send(error.errors);
     } else {
       res.status(500).send("Ocorre um erro interno");
     }
   }
-}
+};
 
-export const deleteUserData = async (req, res) =>{
-  try{
-    
-  }catch (error) {
-
-  }
-}
+export const deleteUserData = async (req, res) => {
+  try {
+  } catch (error) {}
+};

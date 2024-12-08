@@ -1,4 +1,4 @@
-import {object, string, required, number, date, min, trim} from 'yup'
+import {object, string, number} from 'yup'
 
 let validateUserData = object({
     name: string().required('Este campo é obrigatório').trim().matches(/^[^0-9]*$/, 'Nome não pode conter números.'),
